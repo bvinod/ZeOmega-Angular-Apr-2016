@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+	<style type="text/css">
+	.field{
+		margin-bottom: 10px;
+	}
+	label{
+		display: block;
+	}
+	#divResult{
+		color : #2824ff;
+		font-size: 22pt;
+		font-weight: bold;
+	}
+	</style>
+	<script src="angular.min.js"></script>
+	<script>
+		Object.prototype.toInt = function(){
+			return parseInt(this, 10);
+		};
+
+		//Model
+		function MathCalculator(){
+			this.number1 = 0;
+			this.number2 = 0;
+            this.action = 'add';
+			this.result = 0;
+		}
+
+        MathCalculator.prototype.calculate = function(){
+            var action = this.action;
+            if(action=='add'){
+                var total = this.number1 + this.number2;
+			    this.result = total;
+            }
+            else if(action=='sub'){
+                var total = this.number1 - this.number2;
+			    this.result = total;
+            }
+            else if(action=='mul'){
+                var total = this.number1 * this.number2;
+			    this.result = total;
+            }
+            else if(action=='divide'){
+                var total = this.number1 / this.number2;
+			    this.result = total;
+            }
+            else
+                return calculator.reset()
+		}
+
+		//View
+		angular
+			.module("ng")
+			.run(function($rootScope){
+				window.scope = $rootScope;
+				$rootScope.calculator = new MathCalculator();
+			})
+	</script>
+</head>
+<body ng-app>
+	<h1>Math Calculator</h1>
+	<hr>
+	<div>
+		<div class="field">
+			<label for="num_one" accesskey="b">Number 1 :</label>
+			<input type="number"  id="num_one" ng-model="calculator.number1">
+		    <select id="action" ng-model="calculator.action">
+                <option value="add">Add</option>
+                <option value="sub">Sub</option>
+                <option value="mul">Multiply</option>
+                <option value="divide">Divide</option>
+            </select>
+        </div>
+        <div class="field">
+        	<label for="num_two" accesskey="h">Number 2 :</label>
+			<input type="number"  id="num_two" ng-model="calculator.number2">
+		</div>
+        <div class="field">
+            <input type="button" value="Calculate" id="btnAction" ng-click="calculator.calculate()">
+            <input type="button" value="Reset" id="btnReset" ng-click="calculator.reset()">
+        </div>
+
+		<div class="field">
+			<div id="divResult" ng-bind="calculator.result">[Result]</div>
+		</div>
+	</div>
+</body>
+</html>
